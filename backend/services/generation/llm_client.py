@@ -1,0 +1,61 @@
+import os
+
+from dotenv import load_dotenv
+from openai import OpenAI
+
+load_dotenv()
+
+
+class LLMClient:
+
+    def __init__(self):
+
+        self.client = OpenAI(
+            api_key=os.getenv("OPENROUTER_API_KEY"),
+            base_url=os.getenv("OPENROUTER_BASE_URL")
+        )
+
+        self.model = os.getenv("MODEL")
+
+    def generate(self, system_prompt: str, user_prompt: str):
+        
+        response = self.client.chat.completions.create(
+        
+            model=self.model,
+
+            temperature=0.2,
+
+            messages=[
+
+                {
+                    "role": "system",
+                    "content": system_prompt
+                },
+
+                {
+                    "role": "user",
+                    "content": user_prompt
+                }
+
+            ]
+
+        )
+
+        # return response.choices[0].message.content
+
+
+        # print("========== RAW RESPONSE ==========")
+        # print(response)
+        # print("==================================")
+
+        # if response.choices is None:
+        #     raise Exception(f"OpenRouter returned no choices.\n\n{response}")
+
+        # return response.choices[0].message.content
+
+        content = response.choices[0].message.content
+
+        print(type(content))
+        print(content[:200])
+        
+        return content
