@@ -1,8 +1,128 @@
-import json
+# import json
+# from pathlib import Path
+
+# from services.generation.progress import ProgressGenerator
+
+# from services.generation.batch1 import Batch1Generator
+# from services.generation.batch2 import Batch2Generator
+# from services.generation.batch3 import Batch3Generator
+
+
+# class GenerationPipeline:
+
+#     async def generate(
+#         self,
+#         project_id,
+#         technical_level,
+#         product_context
+#     ):
+        
+#         analysis_path = (
+#             Path("analysis")
+#             / project_id
+#             / "analysis.json"
+#         )
+
+#         yield {
+#             "event": "progress",
+#             "data": ProgressGenerator.batch1()
+#         }
+
+#         batch1 = Batch1Generator().generate(
+#             analysis_path,
+#             technical_level,
+#             product_context
+#         )
+
+#         yield {
+
+#             "event": "section",
+
+#             "data": {
+
+#                 "title": "batch1",
+
+#                 "content": batch1
+
+#             }
+
+#         }
+
+#         yield {
+
+#             "event": "progress",
+
+#             "data": ProgressGenerator.batch2()
+
+#         }
+
+#         batch2 = Batch2Generator().generate(
+
+#             analysis_path,
+
+#             technical_level,
+
+#             product_context
+
+#         )
+
+#         yield {
+
+#             "event": "section",
+
+#             "data": {
+
+#                 "title": "batch2",
+
+#                 "content": batch2
+
+#             }
+
+#         }
+
+#         yield {
+
+#             "event": "progress",
+
+#             "data": ProgressGenerator.batch3()
+
+#         }
+
+#         batch3 = Batch3Generator().generate(
+
+#             analysis_path,
+
+#             technical_level,
+
+#             product_context
+
+#         )
+
+#         yield {
+
+#             "event": "section",
+
+#             "data": {
+
+#                 "title": "batch3",
+
+#                 "content": batch3
+
+#             }
+
+#         }
+
+#         yield {
+
+#             "event": "completed",
+
+#             "data": ProgressGenerator.completed()
+
+#         }
+
 from pathlib import Path
 
 from services.generation.progress import ProgressGenerator
-
 from services.generation.batch1 import Batch1Generator
 from services.generation.batch2 import Batch2Generator
 from services.generation.batch3 import Batch3Generator
@@ -12,105 +132,115 @@ class GenerationPipeline:
 
     async def generate(
         self,
-        project_id,
-        technical_level,
-        product_context
+        project_id: str,
+        technical_level: str,
+        product_context: str
     ):
-        
+
         analysis_path = (
             Path("analysis")
             / project_id
             / "analysis.json"
         )
 
-        yield {
-            "event": "progress",
-            "data": ProgressGenerator.batch1()
-        }
-
-        batch1 = Batch1Generator().generate(
-            analysis_path,
-            technical_level,
-            product_context
+        output_directory = (
+            Path("generated")
+            / project_id
         )
 
-        yield {
+        output_directory.mkdir(
+            parents=True,
+            exist_ok=True
+        )
 
-            "event": "section",
+        batches = [
 
-            "data": {
+            {
+                "progress": ProgressGenerator.batch1(),
+                "title": "Start Here & Product Overview",
+                "filename": "batch1.md",
+                "generator": Batch1Generator()
+            },
 
-                "title": "batch1",
+            {
+                "progress": ProgressGenerator.batch2(),
+                "title": "Technology Stack & Architecture",
+                "filename": "batch2.md",
+                "generator": Batch2Generator()
+            },
 
-                "content": batch1
+            {
+                "progress": ProgressGenerator.batch3(),
+                "title": "Repository Guide & Risks",
+                "filename": "batch3.md",
+                "generator": Batch3Generator()
+            }
+
+        ]
+
+        for batch in batches:
+
+            yield {
+
+                "event": "progress",
+
+                "data": batch["progress"]
 
             }
 
-        }
+            try:
 
-        yield {
+                content = batch["generator"].generate(
 
-            "event": "progress",
+                    analysis_path,
 
-            "data": ProgressGenerator.batch2()
+                    technical_level,
 
-        }
+                    product_context
 
-        batch2 = Batch2Generator().generate(
+                )
 
-            analysis_path,
+                with open(
 
-            technical_level,
+                    output_directory / batch["filename"],
 
-            product_context
+                    "w",
 
-        )
+                    encoding="utf-8"
 
-        yield {
+                ) as f:
 
-            "event": "section",
+                    f.write(content)
 
-            "data": {
+                yield {
 
-                "title": "batch2",
+                    "event": "section",
 
-                "content": batch2
+                    "data": {
 
-            }
+                        "title": batch["title"],
 
-        }
+                        "content": content
 
-        yield {
+                    }
 
-            "event": "progress",
+                }
 
-            "data": ProgressGenerator.batch3()
+            except Exception as e:
 
-        }
+                yield {
 
-        batch3 = Batch3Generator().generate(
+                    "event": "error",
 
-            analysis_path,
+                    "data": {
 
-            technical_level,
+                        "title": batch["title"],
 
-            product_context
+                        "message": str(e)
 
-        )
+                    }
 
-        yield {
-
-            "event": "section",
-
-            "data": {
-
-                "title": "batch3",
-
-                "content": batch3
-
-            }
-
-        }
+                }
 
         yield {
 
