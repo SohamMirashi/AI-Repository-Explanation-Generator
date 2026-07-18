@@ -70,6 +70,32 @@ Mention:
 
 Generate Mermaid diagrams whenever possible.
 
+Generate ONLY valid Mermaid v11 syntax.
+
+Rules:
+
+• Never use quotation marks inside node labels.
+
+• Never use Markdown formatting.
+
+• Use plain text labels.
+
+• Use <br/> only for line breaks.
+
+• Keep labels short.
+
+• Avoid sentences inside nodes.
+
+• If a label contains button text, remove quotation marks.
+
+Wrong:
+
+"Book Appointment"
+
+Correct:
+
+Book Appointment
+
 Possible diagrams:
 
 • Architecture
@@ -80,4 +106,4 @@ Possible diagrams:
 
 • Folder Structure
 
-Use Mermaid syntax only.
+Return ONLY Mermaid syntax.

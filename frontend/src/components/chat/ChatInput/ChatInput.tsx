@@ -6,10 +6,17 @@ import { Paperclip, ArrowUp } from "lucide-react";
 
 import type { Message } from "@/components/layout/AppShell";
 
+// import {
+//     uploadRepository,
+//     analyzeRepository,
+//     generateDocumentation,
+// } from "@/services/repositoryApi";
+
 import {
     uploadRepository,
     analyzeRepository,
     generateDocumentation,
+    getDownloadUrl,
 } from "@/services/repositoryApi";
 
 interface ChatInputProps {
@@ -21,10 +28,12 @@ export default function ChatInput({
 }: ChatInputProps) {
 
     const [description, setDescription] = useState("");
+    const [importantFeature, setImportantFeature] = useState("");
     const [zipFile, setZipFile] = useState<File | null>(null);
     const [technicalLevel, setTechnicalLevel] = useState<
         "beginner" | "product" | "developer">("beginner");
     const [loading, setLoading] = useState(false);
+    const [downloadUrl, setDownloadUrl] = useState("");
 
     const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -43,6 +52,7 @@ export default function ChatInput({
         try {
 
             setLoading(true);
+            setDownloadUrl("");
             setMessages([]);
 
             // ---------------- Upload ----------------
@@ -60,33 +70,6 @@ export default function ChatInput({
 
             // ---------------- Analyze ----------------
 
-            //         const analysis = await analyzeRepository(upload.project_id);
-
-            //         const technologySummary = Object.entries(analysis.technologies)
-            //             .filter(([, technologies]) => technologies.length > 0)
-            //             .map(([category, technologies]) =>
-            //                 `${category}: ${technologies.join(", ")}`
-            //             )
-            //             .join("\n");
-
-            //         setMessages(previous => [
-            //             ...previous,
-            //             {
-            //                 id: crypto.randomUUID(),
-            //                 title: "Repository Analysis",
-            //                 content: `Files: ${analysis.total_files}
-
-            // Technologies:
-            // ${technologySummary || "None"}
-
-            // Important Files: ${analysis.important_files}
-            // Relationships: ${analysis.relationships}
-            // Summaries: ${analysis.summaries}`,
-            //             },
-            //         ]);
-
-            // ---------------- Analyze ----------------
-
             await analyzeRepository(upload.project_id);
 
             // ---------------- Generate ----------------
@@ -95,7 +78,6 @@ export default function ChatInput({
 
                 upload.project_id,
 
-                // "developer",
                 technicalLevel,
 
                 description,
@@ -129,14 +111,37 @@ export default function ChatInput({
 
                 },
 
+                // () => {
+
+                //     setMessages(previous => [
+                //         ...previous,
+                //         {
+                //             id: crypto.randomUUID(),
+                //             title: "Completed",
+                //             content: "Documentation generated successfully.",
+                //         },
+                //     ]);
+
+                // },
+
                 () => {
+
+                    setDownloadUrl(
+                        getDownloadUrl(upload.project_id)
+                    );
 
                     setMessages(previous => [
                         ...previous,
+                        // {
+                        //     id: crypto.randomUUID(),
+                        //     title: "Completed",
+                        //     content: "Documentation generated successfully.",
+                        // },
                         {
                             id: crypto.randomUUID(),
                             title: "Completed",
                             content: "Documentation generated successfully.",
+                            downloadUrl: getDownloadUrl(upload.project_id),
                         },
                     ]);
 
@@ -186,10 +191,8 @@ export default function ChatInput({
 
     return (
 
-        <div className="border-t border-gray-300 bg-[#F7F7F8] px-6 py-5">
-
-            <div className="mx-auto max-w-5xl rounded-3xl border border-gray-300 bg-white p-4 shadow-sm">
-
+        <div className="bg-[#F7F7F8] px-6 py-5">
+            <div className="mx-auto max-w-5xl rounded-3xl border border-gray-300 bg-white px-5 py-4 shadow-sm">
                 <input
                     ref={fileInputRef}
                     type="file"
@@ -212,75 +215,96 @@ export default function ChatInput({
                     placeholder="Upload the ZIP file and describe your repository..."
                     value={description}
                     onChange={(e) => setDescription(e.target.value)}
-                    rows={3}
-                    className="w-full resize-none bg-transparent text-gray-900 outline-none placeholder:text-gray-500"
+                    // rows={2}
+                    // className="min-h-[60px] w-full resize-none bg-transparent text-gray-900 outline-none placeholder:text-gray-500"
+                    rows={1}
+                    className="min-h-[48px] max-h-36 w-full resize-none bg-transparent text-gray-900 outline-none placeholder:text-gray-500"
                 />
 
-                <div className="mt-4 flex gap-3">
 
-                    {[
-                        { label: "Beginner", value: "beginner" },
-                        { label: "Product", value: "product" },
-                        { label: "Developer", value: "developer" },
-                    ].map((level) => (
+                <div className="mt-3 flex items-center justify-between">
+
+                    <div className="flex flex-wrap items-center gap-3">
 
                         <button
-                            key={level.value}
                             type="button"
-                            onClick={() =>
-                                setTechnicalLevel(
-                                    level.value as
-                                    | "beginner"
-                                    | "product"
-                                    | "developer"
-                                )
-                            }
-                            className={`rounded-full border px-4 py-2 text-sm transition ${technicalLevel === level.value
-                                ? "bg-black text-white"
-                                : "border-gray-300 text-gray-700 hover:bg-gray-100"
-                                }`}
+                            onClick={() => fileInputRef.current?.click()}
+                            className="flex items-center gap-2 rounded-full border border-gray-300 px-4 py-2 text-sm transition hover:bg-zinc-100"
                         >
-                            {level.label}
+                            <Paperclip size={16} />
+
+                            <span className="max-w-40 truncate">
+                                {zipFile ? zipFile.name : "Upload ZIP"}
+                            </span>
                         </button>
 
-                    ))}
+                        {[
+                            { label: "Beginner", value: "beginner" },
+                            { label: "Product", value: "product" },
+                            { label: "Developer", value: "developer" },
+                        ].map((level) => (
 
-                </div>
+                            <button
+                                key={level.value}
+                                type="button"
+                                onClick={() =>
+                                    setTechnicalLevel(
+                                        level.value as
+                                        | "beginner"
+                                        | "product"
+                                        | "developer"
+                                    )
+                                }
+                                className={`rounded-full px-4 py-2 text-sm transition ${technicalLevel === level.value
+                                    ? "bg-black text-white"
+                                    : "border border-gray-300 bg-white hover:bg-gray-100"
+                                    }`}
+                            >
+                                {level.label}
+                            </button>
 
-                <div className="mt-4 flex items-center justify-between">
+                        ))}
+
+                    </div>
 
                     <button
                         type="button"
-                        onClick={() => fileInputRef.current?.click()}
-                        className="flex items-center gap-2 rounded-full border border-gray-300 px-4 py-2 text-sm text-gray-700 transition hover:bg-zinc-800 hover:text-white"
-                    >
-
-                        <Paperclip size={18} />
-
-                        <span className="max-w-48 truncate">
-
-                            {zipFile ? zipFile.name : "Upload ZIP"}
-
-                        </span>
-
-                    </button>
-
-                    <button
                         disabled={loading}
-                        type="button"
                         onClick={handleGenerate}
-                        className="rounded-full bg-black p-3 text-white transition hover:bg-gray-800 disabled:opacity-50"
+                        className="flex h-11 w-11 items-center justify-center rounded-full bg-black text-white hover:bg-gray-800 disabled:opacity-50"
                     >
-
                         <ArrowUp size={18} />
-
                     </button>
 
                 </div>
+
+                {
+                    downloadUrl && (
+
+                        <a
+                            href={downloadUrl}
+                            download
+                            className="
+                                    mt-4
+                                    flex
+                                    items-center
+                                    justify-center
+                                    rounded-xl
+                                    bg-black
+                                    px-4
+                                    py-3
+                                    text-white
+                                    transition
+                                    hover:bg-gray-800">
+                            Download Documentation ZIP
+                        </a>
+
+                    )
+                }
 
             </div>
 
-        </div>
+        </div >
 
     );
 

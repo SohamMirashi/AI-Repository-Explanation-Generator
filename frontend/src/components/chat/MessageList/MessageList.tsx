@@ -1,7 +1,5 @@
 import type { Message } from "@/components/layout/AppShell";
-import ReactMarkdown from "react-markdown";
-import remarkGfm from "remark-gfm";
-import rehypeRaw from "rehype-raw";
+import MarkdownRenderer from "../MarkdownRenderer/MarkdownRenderer";
 
 interface MessageListProps {
   messages: Message[];
@@ -63,12 +61,9 @@ export default function MessageList({
             </h2>
 
             <div className="max-w-none text-gray-800">
-              <ReactMarkdown
-                remarkPlugins={[remarkGfm]}
-                rehypePlugins={[rehypeRaw]}
-              >
-                {message.content}
-              </ReactMarkdown>
+              <MarkdownRenderer
+                content={message.content}
+              />
             </div>
 
           </div>

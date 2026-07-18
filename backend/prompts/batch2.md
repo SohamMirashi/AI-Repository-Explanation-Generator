@@ -47,7 +47,29 @@ Explain:
 
 • Layer separation
 
-If possible include a Mermaid architecture diagram.
+If possible include ONE Mermaid architecture diagram.
+
+Requirements:
+
+• Mermaid v11 compatible
+
+• Plain text node labels
+
+• No quotation marks inside labels
+
+• Use <br/> only for line breaks
+
+• Maximum 3 lines per node
+
+• Keep labels concise
+
+Example:
+
+Frontend<br/>Next.js
+
+Backend<br/>FastAPI
+
+Database<br/>PostgreSQL
 
 ------------------------------------------------
 

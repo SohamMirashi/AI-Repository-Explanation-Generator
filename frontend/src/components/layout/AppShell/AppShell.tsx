@@ -5,10 +5,17 @@ import { useState } from "react";
 import ChatInput from "@/components/chat/ChatInput";
 import MessageList from "@/components/chat/MessageList";
 
+// export interface Message {
+//     id: string;
+//     title: string;
+//     content: string;
+// }
+
 export interface Message {
     id: string;
     title: string;
     content: string;
+    downloadUrl?: string;
 }
 
 export default function AppShell() {

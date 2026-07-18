@@ -125,133 +125,6 @@ export async function generateDocumentation(
 
     let buffer = "";
 
-//     while (true) {
-
-//         const { done, value } = await reader.read();
-
-//         console.log("-----------------------------");
-//         console.log("Chunk Received");
-//         console.log("Done:", done);
-//         console.log("Bytes:", value?.length);
-
-//         if (done) {
-
-//             console.log("Stream Finished");
-
-//             break;
-
-//         }
-
-//         const decoded = decoder.decode(value, {
-//             stream: true,
-//         });
-
-//         console.log("Decoded Chunk (raw):");
-//         console.log(JSON.stringify(decoded));
-
-//         buffer += decoded;
-
-//         console.log("Current Buffer:");
-//         console.log(buffer);
-
-//         const events = buffer.split("\n\n");
-
-//         buffer = events.pop() || "";
-
-//         console.log("Events Found:", events.length);
-
-//         for (const event of events) {
-
-//             console.log("Raw Event:");
-//             console.log(event);
-
-//             const lines = event.split("\n");
-
-//             let eventName = "";
-//             let eventData = "";
-
-//             for (const line of lines) {
-
-//                 if (line.startsWith("event:")) {
-
-//                     eventName = line.substring(6).trim();
-
-//                 }
-
-//                 if (line.startsWith("data:")) {
-
-//                     eventData = line.substring(5).trim();
-
-//                 }
-
-//             }
-
-//             console.log("Event Name:", eventName);
-//             console.log("Raw Data:", eventData);
-
-//             if (!eventName || !eventData) {
-
-//                 console.warn("Skipping incomplete event.");
-
-//                 continue;
-
-//             }
-
-//             try {
-
-//                 const parsed = JSON.parse(eventData);
-
-//                 console.log("Parsed Event:", parsed);
-
-//                 switch (eventName) {
-
-//                     case "progress":
-
-//                         console.log("Calling onProgress()");
-//                         onProgress(parsed);
-//                         break;
-
-//                     case "section":
-
-//                         console.log("Calling onSection()");
-//                         onSection(parsed);
-//                         break;
-
-//                     case "completed":
-
-//                         console.log("Calling onCompleted()");
-//                         onCompleted(parsed);
-//                         break;
-
-//                     case "error":
-
-//                         console.log("Calling onError()");
-//                         onError(parsed.message);
-//                         break;
-
-//                     default:
-
-//                         console.warn("Unknown Event:", eventName);
-
-//                 }
-
-//             }
-
-//             catch (err) {
-
-//                 console.error("JSON Parse Error");
-//                 console.error(err);
-//                 console.error(eventData);
-
-//             }
-
-//         }
-
-//     }
-
-//     console.log("========== END GENERATION ==========");
-// }
-
     while (true) {
 
     const { done, value } = await reader.read();
@@ -362,4 +235,8 @@ export async function generateDocumentation(
 
     }
     }
+}
+
+export function getDownloadUrl(projectId: string) {
+    return `http://localhost:8000/download/${projectId}`;
 }

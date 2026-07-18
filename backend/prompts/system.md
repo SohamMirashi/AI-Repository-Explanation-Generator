@@ -139,6 +139,38 @@ Use code blocks for commands.
 
 Use Mermaid for diagrams.
 
+IMPORTANT MERMAID RULES
+
+Generate Mermaid syntax that is fully compatible with Mermaid v11.
+
+Rules:
+
+• Never use double quotes (") inside node labels.
+
+• Never use single quotes (') inside node labels.
+
+• Never use Markdown formatting inside node labels.
+
+• Use plain text only.
+
+• Use <br/> only for line breaks.
+
+• Do not surround button names or labels with quotation marks.
+
+Wrong:
+
+Hero<br/>"Book Appointment" button
+
+Correct:
+
+Hero<br/>Book Appointment button
+
+• Keep node labels short.
+
+• Avoid long paragraphs inside nodes.
+
+• Never generate invalid Mermaid syntax.
+
 Avoid repetition.
 
 Keep explanations clear and visually structured.

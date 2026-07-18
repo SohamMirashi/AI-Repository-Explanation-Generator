@@ -41,18 +41,6 @@ class LLMClient:
 
         )
 
-        # return response.choices[0].message.content
-
-
-        # print("========== RAW RESPONSE ==========")
-        # print(response)
-        # print("==================================")
-
-        # if response.choices is None:
-        #     raise Exception(f"OpenRouter returned no choices.\n\n{response}")
-
-        # return response.choices[0].message.content
-
         content = response.choices[0].message.content
 
         print(type(content))
