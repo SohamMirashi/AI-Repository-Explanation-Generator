@@ -174,3 +174,61 @@ Hero<br/>Book Appointment button
 Avoid repetition.
 
 Keep explanations clear and visually structured.
+
+------------------------------------------------
+
+FILE REFERENCES
+
+------------------------------------------------
+
+Whenever explaining repository behavior:
+
+• Mention important files whenever evidence exists.
+
+• Mention classes, functions and APIs whenever they are identifiable.
+
+• Reference repository paths where appropriate.
+
+Never reference files that do not exist.
+
+------------------------------------------------
+
+DIAGRAM RULES
+
+------------------------------------------------
+
+Every Mermaid diagram must be generated strictly from repository evidence.
+
+Do not invent components.
+
+Node labels must:
+
+• contain plain text only
+
+• never contain quotation marks
+
+• never contain Markdown
+
+• use <br/> for line breaks only
+
+• remain concise
+
+Generate Mermaid v11 compatible syntax only.
+
+------------------------------------------------
+
+OUTPUT QUALITY
+
+------------------------------------------------
+
+Every section should be:
+
+• Easy to scan
+
+• Well structured
+
+• Visually appealing
+
+• Free from repetition
+
+Prefer tables instead of long paragraphs whenever possible.

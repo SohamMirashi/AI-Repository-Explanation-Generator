@@ -31,6 +31,9 @@ For each technology explain:
 
 Use tables whenever appropriate.
 
+Do not simply list package names.
+Explain the role of every important technology.
+
 ------------------------------------------------
 
 # Architecture
@@ -71,6 +74,10 @@ Backend<br/>FastAPI
 
 Database<br/>PostgreSQL
 
+Answer the question:
+
+"When a user performs an action, which major systems participate?"
+
 ------------------------------------------------
 
 # Important Components
@@ -81,10 +88,16 @@ For every important component explain:
 
 • Responsibilities
 
+• Inputs
+
+• Outputs
+
 • Important files
 
 • Dependencies
 
-• How it interacts with other components
+• Connected components
 
-Use Markdown headings.
+• Confidence
+
+Use Markdown tables whenever appropriate.

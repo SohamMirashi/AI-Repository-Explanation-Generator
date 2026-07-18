@@ -6,26 +6,61 @@ Generate ONLY the following sections.
 
 # Main User Flow
 
-Explain the user journey step-by-step.
+Explain the primary user journey step-by-step.
 
-If multiple user flows exist,
-describe each separately.
+For every step include:
+
+• User action
+
+• Component
+
+• File
+
+• Evidence
+
+• Confidence
+
+Whenever possible identify:
+
+• Frontend component
+
+• API request
+
+• Backend route
+
+• Business logic
+
+• Database interaction
+
+• Response returned
+
+If a complete flow cannot be identified, explain what was found and clearly label missing or inferred steps.
+
+Do not invent missing behavior.
 
 ------------------------------------------------
 
 # Repository Guide
 
-Explain the repository structure.
+Explain:
 
-Mention:
+• Folder purpose
 
-• Important folders
+• Type of files
 
-• Important files
+• Product capability supported
 
-• Configuration files
+• Whether the reader should study it now or later
 
-• Entry points
+Then identify approximately 10–20 important files.
+
+For every file explain:
+
+• Why it matters
+
+• What it controls
+
+• Connected components
 
 ------------------------------------------------
 

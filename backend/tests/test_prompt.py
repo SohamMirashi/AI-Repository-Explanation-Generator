@@ -2,15 +2,34 @@ import json
 
 from services.generation.prompts import PromptBuilder
 
-project_id = "613029de-6440-481b-bd0d-856ef6c03f2e"   # Replace with your project id
+with open(
+    "analysis/613029de-6440-481b-bd0d-856ef6c03f2e/analysis.json",
+    "r",
+    encoding="utf-8"
+) as f:
 
-with open(f"analysis/{project_id}/analysis.json", "r", encoding="utf-8") as f:
     analysis = json.load(f)
 
-prompt = PromptBuilder.build_batch1_prompt(
-    analysis=analysis,
-    technical_level="Beginner",
-    product_context="Hospital Management System"
+system = PromptBuilder.load_prompt(
+    "system.md"
 )
 
-print(prompt)
+batch = PromptBuilder.load_prompt(
+    "batch1.md"
+)
+
+context = PromptBuilder.build_context(
+
+    analysis,
+
+    "Beginner",
+
+    "Hospital Management System"
+
+)
+
+print(system)
+
+print(context)
+
+print(batch)

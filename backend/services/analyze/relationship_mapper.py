@@ -11,7 +11,6 @@ class RelationshipMapper:
     REQUIRE_PATTERN = re.compile(
         r'require\([\'"](.+?)[\'"]\)'
     )
-
     PYTHON_IMPORT = re.compile(
         r'from\s+([a-zA-Z0-9_.]+)\s+import|import\s+([a-zA-Z0-9_.]+)'
     )

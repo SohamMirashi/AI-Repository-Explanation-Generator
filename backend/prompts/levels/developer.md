@@ -16,3 +16,18 @@ Rules:
 - Explain module interactions.
 - Explain implementation choices.
 - Avoid oversimplification.
+
+Whenever possible:
+
+• mention important interfaces
+
+• mention request/response flow
+
+• explain service boundaries
+
+• explain module responsibilities
+
+• explain architectural decisions instead of only describing the code
+
+Do not merely list files.
+Explain how they collaborate.

@@ -16,3 +16,7 @@ Rules:
 - Explain WHY technologies are used.
 - Explain the overall flow before discussing individual files.
 - Do not assume prior knowledge of React, FastAPI, APIs, routing, databases, or authentication.
+
+Always explain the overall application flow before explaining individual files or components.
+
+Whenever a new technology appears, first explain what it is, then explain why this repository uses it.

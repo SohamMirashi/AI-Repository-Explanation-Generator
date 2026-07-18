@@ -21,12 +21,6 @@ async def download_documentation(project_id: str):
 
     with ZipFile(zip_path, "w") as zip_file:
 
-        # for file in generated_folder.glob("*.md"):
-        #     zip_file.write(
-        #         file,
-        #         arcname=file.name
-        #     )
-
         for file in generated_folder.iterdir():
 
             if file.name == "documentation.zip":
